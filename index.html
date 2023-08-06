@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slider Form</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <div class="form">
+        <div class="input__field">
+            <form class="selection__form" action="#">
+                <h1>Создай свой слайдер</h1>
+                <label class="text field">
+                    Общее количество слайдов
+                    <div class="input__wrapper">
+                        <input type="number" name="slidesCount" min="1" placeholder="Введите число">
+                    </div>
+                </label>
+                <label class="text field">
+                    Количество прокрутки слайдов
+                    <div class="input__wrapper">
+                        <input type="number" name="slidesToScroll" min="1" placeholder="Введите число">
+                    </div>
+                </label>
+                <label class="text field">
+                    Ширина слайда
+                    <input type="number" name="width" min="1" placeholder="Введите число">
+                </label>
+                <label class="text field">
+                    Интервал между слайдами
+                    <input type="number" name="gap" min="1" placeholder="Введите число">
+                </label>
+                <label class="text field">
+                    Количество показов слайдов
+                    <input type="number" name="toShow" min="1" placeholder="Введите число">
+                </label>
+                <p class="text">
+                    <input type="checkbox" name="navigation__buttons">
+                    Добавить кнопки просмотра
+                </p>
+                <p class="text">
+                    <input type="checkbox" name="pagination__buttons">
+                    Добавить точки пагинации
+                </p>
+                <button class="text">
+                    Create
+                </button>
+            </form>
+
+        </div>
+        <div class="display__form">
+
+        </div>
+    </div>
+
+
+    <script src="./script.js"></script>
+</body>
+
+</html>
