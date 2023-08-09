@@ -27,15 +27,21 @@
                 </label>
                 <label class="text field">
                     Ширина слайда
-                    <input type="number" name="width" min="1" placeholder="Введите число">
+                    <div class="input__wrapper">
+                        <input type="number" name="width" min="1" placeholder="Введите число">
+                    </div>
                 </label>
                 <label class="text field">
                     Интервал между слайдами
-                    <input type="number" name="gap" min="1" placeholder="Введите число">
+                    <div class="input__wrapper">
+                        <input type="number" name="gap" min="1" placeholder="Введите число">
+                    </div>
                 </label>
                 <label class="text field">
                     Количество показов слайдов
-                    <input type="number" name="toShow" min="1" placeholder="Введите число">
+                    <div class="input__wrapper">
+                        <input type="number" name="toShow" min="1" placeholder="Введите число">
+                    </div>
                 </label>
                 <p class="text">
                     <input type="checkbox" name="navigation__buttons">
@@ -57,7 +63,7 @@
     </div>
 
 
-    <script src="./script.js"></script>
+    <script type="module" src="./script.js"></script>
 </body>
 
 </html>
