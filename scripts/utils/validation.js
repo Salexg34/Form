@@ -1,3 +1,9 @@
+/**
+ * Проверка формы на наличие ошибок.
+ * @param {string} key - Ключ для доступа к соответствующему элементу формы.
+ * @returns {boolean} Результат проверки формы (true - форма прошла валидацию, false - есть ошибки).
+ */
+
 import { obj } from './elements.js';
 import { validators, message, createErrorElement } from './error.js';
 
@@ -15,6 +21,10 @@ export function checkForm(key) {
 
     return result;
 };
+
+/**
+ * Функция фокуса на первом элементе с ошибкой валидации.
+ */
 
 export function focusOnFirstError() {
     let firstErrorElement = null;
