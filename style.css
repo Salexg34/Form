@@ -1,15 +1,14 @@
+@import url('./slider.css');
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-
 }
 
 .form {
     margin: 50px 50px 0 50px;
     display: flex;
-
-    /* height: 700px; */
 
 }
 
@@ -27,7 +26,7 @@
 
 }
 
-.text {    
+.text {
     font-size: 1.25rem;
     font-weight: 600;
     line-height: 160%;
@@ -51,11 +50,50 @@ button {
 
 }
 
-.display__form {
+.form__output {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+
     margin-left: 50px;
     width: 70vw;
+    padding: 10px;
+
     border: solid 5px;
 
+}
+
+.slider {
+    --cards-width: 0;
+    --cards-to-show: 0;
+    --cards-gap: 0;
+    --cards-to-scroll: 0;
+    --slider-width: calc(var(--cards-to-show) * (var(--cards-width) + var(--cards-gap)) - var(--cards-gap));
+
+}
+
+.display__form {
+    display: flex;
+    flex-direction: row;
+    /* overflow: hidden; */
+
+    /* width: 100%; */
+    /* не нравится такое решение */
+    /* max-width: 30vw; */
+
+    /* border: solid 5px blue;
+    padding: 10px;  */
+}
+
+.slider__cards {
+    display: flex;
+    flex-shrink: 0;
+
+    width: var(--cards-width);
+    padding: 20px;
+    border: solid 5px red;
 }
 
 input[type=number] {
@@ -69,15 +107,60 @@ input[type=number] {
     color: red;
     font-size: 1rem;
     top: 50%;
-    right: 5px; 
+    right: 5px;
     transform: translate(0, -50%);
 }
 
-label:has(.error) input{
+label:has(.error) input {
     border: 2px dashed red;
 }
 
 .input__wrapper {
     position: relative;
 
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+
+    /* background-color: red; */
+
+}
+
+.dot {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: blueviolet;
+    /* background-color: var(--main-button-color); */
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+
+}
+
+.wrapper {
+    display: flex;
+
+    gap: 30px;
+}
+
+.slider__wrapper {
+    max-width: calc(var(--cards-to-show) * (var(--cards-width) + var(--cards-gap)) - var(--cards-gap));
+    display: flex;
+    gap: var(--cards-gap);
+    position: relative;
+    left: 0;
+    transition: all 1s;
+}
+
+.check__box {
+    display: flex;
+    flex-wrap: wrap;
+
+}
+.check__box .error {
+    position: relative;
 }

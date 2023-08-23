@@ -8,7 +8,7 @@
  * @property {HTMLInputElement} toShow - Элемент input для указания количества показываемых слайдов.
  */
 
-export const obj = {
+export const formInputsObject = {
     slidesCount: document.querySelector('input[name="slidesCount"]'),
     slidesToScroll: document.querySelector('input[name="slidesToScroll"]'),
     width: document.querySelector('input[name="width"]'),

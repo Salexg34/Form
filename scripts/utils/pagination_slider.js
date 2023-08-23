@@ -10,12 +10,15 @@
  * @param {function} paginationSlider.choiceSlider - Функция для выбора слайда по его индексу.
  * @returns {void}
  */
+
+import { choiceSlider } from "./choice_slider.js";
+
 export const paginationSlider = function paginationSlider({slidesCount, pagination, choiceSlider}) {
     for (let i = 1; i < slidesCount - 1; i++) {
         const paginationDot = document.createElement('div');
         paginationDot.classList.add('dot');
         paginationDot.setAttribute('data-slide-index', i);
-        paginationDot.innerHTML = '<img src="/img/slider/paginationDotActive.svg">';
+        paginationDot.innerHTML = '<img src="/img/paginationDotActive.svg">';
         pagination.appendChild(paginationDot);
 
         if (i == 1) {

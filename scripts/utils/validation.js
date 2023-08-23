@@ -4,11 +4,13 @@
  * @returns {boolean} Результат проверки формы (true - форма прошла валидацию, false - есть ошибки).
  */
 
-import { obj } from './elements.js';
+import { formInputsObject } from './elements.js';
 import { validators, message, createErrorElement } from './error.js';
+import { viewSlide } from './slideShow.js';
 
-export function checkForm(key) {
-    const input = obj[key];
+export function checkFormInput(key) {
+    const input = formInputsObject[key];
+    console.log(key, input)
     const parent = input.parentElement;
 
     const result = validators[key](input.value);
@@ -21,25 +23,36 @@ export function checkForm(key) {
 
     return result;
 };
-
 /**
- * Функция фокуса на первом элементе с ошибкой валидации.
+ * Выполняет валидацию формы и отображение ошибок.
  */
 
-export function focusOnFirstError() {
+export function validateForm() {
     let firstErrorElement = null;
+    const navigationCheckbox = document.querySelector('input[name="navigation__buttons"]');
+    const paginationCheckbox = document.querySelector('input[name="pagination__buttons"]');
+    const checkBoxElement = document.querySelector('.check__box');
+    const checkBoxError = document.querySelector('.check__box .error');
 
-    for (let key of Object.keys(obj)) {
-        if (!checkForm(key)) {
-            obj[key].focus();
+    for (let key of Object.keys(formInputsObject)) {
+        firstErrorElement = !firstErrorElement && !checkFormInput(key)
+            ? formInputsObject[key]
+            : firstErrorElement;
+    }
 
-            if (!firstErrorElement) {
-                firstErrorElement = obj[key];
-            }
-        }
+    checkBoxError && checkBoxElement.removeChild(checkBoxError);
+
+    if (!navigationCheckbox.checked && !paginationCheckbox.checked) {
+        const error = createErrorElement(message.checkBoxError);
+        checkBoxElement.appendChild(error);
+        return
     }
 
     if (firstErrorElement) {
         firstErrorElement.focus();
-    }
-} 
+    } else viewSlide({
+        isNavigationEnabled: navigationCheckbox.checked,
+        isPaginationEnadled: paginationCheckbox.checked,
+    });
+}
+
