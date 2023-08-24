@@ -1,16 +1,15 @@
+import { formInputsObject } from './elements.js';
+import { validators, message, createErrorElement } from './error.js';
+import { viewSlide } from './slideShow.js';
+
 /**
  * Проверка формы на наличие ошибок.
  * @param {string} key - Ключ для доступа к соответствующему элементу формы.
  * @returns {boolean} Результат проверки формы (true - форма прошла валидацию, false - есть ошибки).
  */
 
-import { formInputsObject } from './elements.js';
-import { validators, message, createErrorElement } from './error.js';
-import { viewSlide } from './slideShow.js';
-
 export function checkFormInput(key) {
     const input = formInputsObject[key];
-    console.log(key, input)
     const parent = input.parentElement;
 
     const result = validators[key](input.value);
@@ -23,6 +22,7 @@ export function checkFormInput(key) {
 
     return result;
 };
+
 /**
  * Выполняет валидацию формы и отображение ошибок.
  */
@@ -39,15 +39,18 @@ export function validateForm() {
             ? formInputsObject[key]
             : firstErrorElement;
     }
-
+    // Удаление сообщения об ошибке, если оно есть
     checkBoxError && checkBoxElement.removeChild(checkBoxError);
 
+    // Проверка, что хотя бы один из чекбоксов выбран
     if (!navigationCheckbox.checked && !paginationCheckbox.checked) {
         const error = createErrorElement(message.checkBoxError);
         checkBoxElement.appendChild(error);
         return
     }
 
+    // Если есть ошибки, установить фокус на первом элементе с ошибкой,
+    // иначе вызвать функцию отображения слайдов
     if (firstErrorElement) {
         firstErrorElement.focus();
     } else viewSlide({
@@ -55,4 +58,3 @@ export function validateForm() {
         isPaginationEnadled: paginationCheckbox.checked,
     });
 }
-

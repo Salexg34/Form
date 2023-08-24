@@ -7,12 +7,12 @@
  * @param {object} paginationSlider - Объект с параметрами для создания пагинации и обработчиков событий.
  * @param {number} paginationSlider.slidesCount - Общее количество слайдов в слайдере.
  * @param {HTMLElement} paginationSlider.pagination - Ссылка на элемент пагинации слайдера, куда будут добавлены точки для навигации.
- * @param {function} paginationSlider.choiceSlider - Функция для выбора слайда по его индексу.
+ * @param {function} paginationSlider.updateSliderProperties - Функция для выбора слайда по его индексу.
  * @returns {void}
  */
 // import { findElements } from './find_elements.js';
 import { obj } from './scripts/utils/elements.js';
-export const paginationSlider = function paginationSlider({slidesCount, pagination, choiceSlider}) {
+export const paginationSlider = function paginationSlider({slidesCount, pagination, choiceSlider: updateSliderProperties}) {
     for (let i = 1; i < obj.slidesCount.value - 1; i++) {
         const paginationDot = document.createElement('div');
         paginationDot.classList.add('dot');
@@ -27,7 +27,7 @@ export const paginationSlider = function paginationSlider({slidesCount, paginati
         }
 
         paginationDot.addEventListener('click', function () {
-            choiceSlider(i);
+            updateSliderProperties(i);
         });
     };
 };

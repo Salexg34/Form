@@ -1,48 +1,38 @@
-import { getMaxWidth } from "./get_max_width.js";
+import { getMaxOffset } from "./get_max_offset.js";
 import { changeSliderProperties } from "./change_slider_properties.js";
 import { findElements } from "./find_elements.js";
-import { check } from "./check_offset.js";
+import { checkOffset } from "./check_offset.js";
 import { paginationSlider } from "./pagination_slider.js";
 
 /**
- * InitSlider
- * @param {number} scroll - Количество прокручиваемых слайдов 
- * @param {number} width - Ширина слайда
- * @param {number} gap - отступ между слайдами
- * @param {number} toShow - Количество вывода слайдов к показу
+ * InitSlider инициализирует слайдер и устанавливает обработчики событий.
+ * @param {number} cardsToScroll - Количество прокручиваемых слайдов 
+ * @param {number} cardWidth - Ширина слайда
+ * @param {number} cardGap - отступ между слайдами
+ * @param {number} cardsToShow - Количество вывода слайдов к показу
  */
-// function turnSlides(side) {
-//     if (side == 'left') {
-//         currentDot -= 1;
-//     } else if (side == 'right') {
-//         currentDot += 1;
-//     }
 
-//     choiceSlider(currentDot);
-// }
-// export { turnSlides }; 
-
-export const initSlider = function (scroll, width, gap, toShow) {
+export const initSlider = function (cardsToScroll, cardWidth, cardGap, cardsToShow) {
     const {
         slidesCount,
         buttonNext,
         buttonPrev,
-        sliderWrapper,
+        sliderContainer,
         pagination
     } = findElements();
 
-    if (toShow <= scroll) {
-        scroll = toShow;
+    if (cardsToShow <= cardsToScroll) {
+        cardsToScroll = cardsToShow;
     };
 
-    changeSliderProperties({ width, gap, toShow, scroll });
+    changeSliderProperties({ cardWidth, cardGap, cardsToShow, cardsToScroll });
 
-    const maxWidth = getMaxWidth({ width, gap, slidesCount, toShow });
+    const maxOffset = getMaxOffset({ cardWidth, cardGap, slidesCount, cardsToShow });
 
     let offset = 0;
-    let currentDot = 1;
+    let currentSlideIndex = 1;
 
-    check({ offset, maxWidth, buttonPrev, sliderWrapper, buttonNext });
+    checkOffset({ offset, maxOffset, buttonPrev, sliderContainer, buttonNext });
 
     buttonNext && buttonNext.addEventListener('click', function () {
         turnSlides('rigth');
@@ -57,40 +47,46 @@ export const initSlider = function (scroll, width, gap, toShow) {
         item.setAttribute('data-slide-index', idx);
     })
 
+    /**
+     * Переключает слайды влево и вправо
+     * @param {string } side - Направление переключения ('left' или 'right')
+     */
     function turnSlides(side) {
         if (side == 'left') {
-            currentDot -= 1
+            currentSlideIndex -= cardsToScroll
         } else if (side == 'rigth') {
-            currentDot += 1
+            currentSlideIndex += cardsToScroll
         }
 
-        choiceSlider(currentDot);
+        updateSliderProperties(currentSlideIndex);
     };
 
-    pagination && paginationSlider({ 
-        choiceSlider: choiceSlider,
-        slidesCount: slidesCount,
-        pagination: pagination,
-        
+    pagination && paginationSlider({
+        updateSliderProperties,
+        slidesCount,
+        pagination,
     });
 
-    function choiceSlider(slideIndex) {
+    /**
+     * Обновляет свойства слайдера и управляет ими.
+     * @param {number } slideIndex - индекс слайда для отображения.
+     */
+    function updateSliderProperties(slideIndex) {
 
-        currentDot = slideIndex;
+        currentSlideIndex = slideIndex;
 
         const activeElements = document.querySelectorAll('div.active');
         activeElements.forEach(function (item) {
             item.classList.remove('active');
         });
 
-        const currentElements = document.querySelectorAll(`[data-slide-index = '${currentDot}']`);
+        const currentElements = document.querySelectorAll(`[data-slide-index = '${currentSlideIndex}']`);
         currentElements.forEach(function (item) {
             item.classList.add('active')
         })
 
-        offset = -((width + gap) * currentDot) + (width + gap);
-        sliderWrapper.style.transform = `translateX(${offset}px)`;
-        check({ offset, maxWidth, buttonPrev, sliderWrapper, buttonNext });
+        offset = -((cardWidth + cardGap) * currentSlideIndex) + (cardWidth + cardGap);
+        sliderContainer.style.transform = `translateX(${offset}px)`;
+        checkOffset({ offset, maxOffset, buttonPrev, sliderContainer, buttonNext });
     }
 };
-

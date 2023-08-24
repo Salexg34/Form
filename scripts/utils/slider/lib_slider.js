@@ -1,20 +1,17 @@
 import { getMaxWidth } from "./utils/get_max_width.js";
 import { changeSliderProperties } from "./utils/change_slider_properties.js";
 import { findElements } from "./utils/find_elements.js";
-import { check } from "./utils/check_offset.js";
+import { checkOffset } from "./utils/check_offset.js";
 import { paginationSlider } from "./utils/pagination_slider.js";
-
-// import  choiceSlider from "./utils/choice_slider.js";
-
 
 /**
  * InitSlider
  * @param {number} scroll - Количество прокручиваемых слайдов 
- * @param {number} width - Ширина слайда
- * @param {number} gap - отступ между слайдами
+ * @param {number} cardWidth - Ширина слайда
+ * @param {number} cardGap - отступ между слайдами
  * @param {number} toShow - Количество вывода слайдов к показу
  */
-export const initSlider = function (scroll, width, gap, toShow) {
+export const initSlider = function (scroll, cardWidth, cardGap, toShow) {
     const {
         slidesCount,
         buttonNext,
@@ -27,15 +24,15 @@ export const initSlider = function (scroll, width, gap, toShow) {
         scroll = toShow;
     };
 
-    changeSliderProperties({ width, gap, toShow });
+    changeSliderProperties({ cardWidth, cardGap, toShow });
 
-    const maxWidth = getMaxWidth({ width, gap, slidesCount, toShow });
+    const maxWidth = getMaxWidth({ width: cardWidth, cardGap, slidesCount, toShow });
     // const fullCardsWidth = getFullCardsWidth({width, gap, scroll})
 
     let offset = 0;
-    let currentDot = 1;
+    let currentSlideIndex = 1;
     
-    check({ offset, maxWidth, buttonPrev, sliderWrapper, buttonNext });
+    checkOffset({ offset, maxWidth, buttonPrev, sliderWrapper, buttonNext });
 
     buttonNext.addEventListener('click', function () {
         turnSlides('rigth');
@@ -52,33 +49,33 @@ export const initSlider = function (scroll, width, gap, toShow) {
 
     function turnSlides(side) {
         if (side == 'left') {
-            currentDot -= 1
+            currentSlideIndex -= 1
         } else if (side == 'rigth') {
-            currentDot += 1
+            currentSlideIndex += 1
         }
 
-        choiceSlider(currentDot);
+        updateSliderProperties(currentSlideIndex);
     };
    
-    paginationSlider({ slidesCount, pagination, choiceSlider });
+    paginationSlider({ slidesCount, pagination, choiceSlider: updateSliderProperties });
 
-    function choiceSlider(slideIndex) {
+    function updateSliderProperties(slideOffset) {
 
-        currentDot = slideIndex;
+        currentSlideIndex = slideOffset;
 
         const activeElements = document.querySelectorAll('div.active');
         activeElements.forEach(function (item) {
             item.classList.remove('active');
         });
 
-        const currentElements = document.querySelectorAll(`[data-slide-index = '${currentDot}']`);
+        const currentElements = document.querySelectorAll(`[data-slide-index = '${currentSlideIndex}']`);
         currentElements.forEach(function (item) {
             item.classList.add('active')
         })
 
-        offset = -((width + gap) * currentDot) + (width + gap);
+        offset = -((cardWidth + cardGap) * currentSlideIndex) + (cardWidth + cardGap);
         sliderWrapper.style.transform = `translateX(${offset}px)`;
-        check({ offset, maxWidth, buttonPrev, sliderWrapper, buttonNext });
+        checkOffset({ offset, maxWidth, buttonPrev, sliderWrapper, buttonNext });
     }
 };
 
