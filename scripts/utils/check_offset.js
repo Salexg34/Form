@@ -7,15 +7,15 @@
  * @param {number} check.offset - Текущее смещение слайдера.
  * @param {number} check.maxOffset - Максимальное допустимое смещение слайдера.
  * @param {HTMLElement} check.buttonPrev - Кнопка "Предыдущий слайд".
- * @param {HTMLElement} check.sliderContainer - Обертка слайдера.
+ * @param {HTMLElement} check.sliderWrapper - Обертка слайдера.
  * @param {HTMLElement} check.buttonNext - Кнопка "Следующий слайд".
  * @returns {void}
  */
 
-export function checkOffset({offset, maxOffset, buttonPrev, sliderContainer, buttonNext}) {
+export function checkOffset({offset, maxOffset, buttonPrev, sliderWrapper, buttonNext}) {
     if (offset >= 0) {
         buttonPrev && buttonPrev.setAttribute('disabled', true);
-        sliderContainer.style.transform = `translateX(${0}px)`;
+        sliderWrapper.style.transform = `translateX(${0}px)`;
         offset = 0;
 
     } else {
@@ -23,7 +23,7 @@ export function checkOffset({offset, maxOffset, buttonPrev, sliderContainer, but
     }
     if (offset <= -maxOffset) {
        buttonNext && buttonNext.setAttribute('disabled', true);
-        sliderContainer.style.transform = `translateX(${-maxOffset}px)`;
+        sliderWrapper.style.transform = `translateX(${-maxOffset}px)`;
         offset = -maxOffset;
         console.log('stop', offset, -maxOffset)
     } else {

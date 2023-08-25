@@ -1,4 +1,4 @@
-import { updateSliderProperties } from "./choice_slider.js";
+import { updateSliderPosition } from "./choice_slider.js";
 
 /**
  * Модуль paginationSlider Создает пагинацию для слайдера и назначает обработчики событий для переключения слайдов.
@@ -7,14 +7,14 @@ import { updateSliderProperties } from "./choice_slider.js";
  * @param {object} paginationSlider - Объект с параметрами для создания пагинации и обработчиков событий.
  * @param {number} paginationSlider.slidesCount - Общее количество слайдов в слайдере.
  * @param {HTMLElement} paginationSlider.pagination - Ссылка на элемент пагинации слайдера, куда будут добавлены точки для навигации.
- * @param {function} paginationSlider.updateSliderProperties - Обновляет свойства слайдера, включая отображение активных элементов и смещение.
+ * @param {function} paginationSlider.updateSliderPosition - Обновляет позицию слайдера, включая отображение активных элементов и смещение.
  * @returns {void}
  */
 
-export const paginationSlider = function paginationSlider({
+export function paginationSlider({
     slidesCount,
     pagination,
-    updateSliderProperties
+    updateSliderPosition
 }) {
     /**
      * Создает точки для пагинации и назначает обработчики событий для переключения слайдов
@@ -33,7 +33,7 @@ export const paginationSlider = function paginationSlider({
         }
 
         paginationDot.addEventListener('click', function () {
-            updateSliderProperties(i);
+            updateSliderPosition(i);
         });
     };
 };

@@ -17,7 +17,7 @@ export const initSlider = function (cardsToScroll, cardWidth, cardGap, cardsToSh
         slidesCount,
         buttonNext,
         buttonPrev,
-        sliderContainer,
+        sliderWrapper,
         pagination
     } = findElements();
 
@@ -30,9 +30,9 @@ export const initSlider = function (cardsToScroll, cardWidth, cardGap, cardsToSh
     const maxOffset = getMaxOffset({ cardWidth, cardGap, slidesCount, cardsToShow });
 
     let offset = 0;
-    let currentSlideIndex = 1;
+    let activeSlideIndex = 1;
 
-    checkOffset({ offset, maxOffset, buttonPrev, sliderContainer, buttonNext });
+    checkOffset({ offset, maxOffset, buttonPrev, sliderWrapper, buttonNext });
 
     buttonNext && buttonNext.addEventListener('click', function () {
         turnSlides('rigth');
@@ -53,16 +53,16 @@ export const initSlider = function (cardsToScroll, cardWidth, cardGap, cardsToSh
      */
     function turnSlides(side) {
         if (side == 'left') {
-            currentSlideIndex -= cardsToScroll
+            activeSlideIndex -= cardsToScroll
         } else if (side == 'rigth') {
-            currentSlideIndex += cardsToScroll
+            activeSlideIndex += cardsToScroll
         }
 
-        updateSliderProperties(currentSlideIndex);
+        updateSliderPosition(activeSlideIndex);
     };
 
     pagination && paginationSlider({
-        updateSliderProperties,
+        updateSliderPosition,
         slidesCount,
         pagination,
     });
@@ -71,22 +71,22 @@ export const initSlider = function (cardsToScroll, cardWidth, cardGap, cardsToSh
      * Обновляет свойства слайдера и управляет ими.
      * @param {number } slideIndex - индекс слайда для отображения.
      */
-    function updateSliderProperties(slideIndex) {
+    function updateSliderPosition(slideIndex) {
 
-        currentSlideIndex = slideIndex;
+        activeSlideIndex = slideIndex;
 
         const activeElements = document.querySelectorAll('div.active');
         activeElements.forEach(function (item) {
             item.classList.remove('active');
         });
 
-        const currentElements = document.querySelectorAll(`[data-slide-index = '${currentSlideIndex}']`);
+        const currentElements = document.querySelectorAll(`[data-slide-index = '${activeSlideIndex}']`);
         currentElements.forEach(function (item) {
             item.classList.add('active')
         })
 
-        offset = -((cardWidth + cardGap) * currentSlideIndex) + (cardWidth + cardGap);
-        sliderContainer.style.transform = `translateX(${offset}px)`;
-        checkOffset({ offset, maxOffset, buttonPrev, sliderContainer, buttonNext });
+        offset = -((cardWidth + cardGap) * activeSlideIndex) + (cardWidth + cardGap);
+        sliderWrapper.style.transform = `translateX(${offset}px)`;
+        checkOffset({ offset, maxOffset, buttonPrev, sliderWrapper, buttonNext });
     }
 };
